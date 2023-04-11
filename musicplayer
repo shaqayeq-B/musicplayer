@@ -5,15 +5,15 @@ from webbrowser import get
 import pygame
 import os
 
-
+#ایجاد پنجره
 root = Tk()
 root.geometry("600x420")
 root.resizable(0,0)
-root.title('musicplayer')
+root.title('THE Music player')
 
 status=StringVar()
 
-
+#برای صدا
 pygame.init()
 pygame.mixer.init()
 
@@ -23,7 +23,7 @@ def playsong():
     songtrack.insert('1.0', playlist.get(ACTIVE))
     songtrack.config(state=DISABLED)
 
-    status.set('-Playing')
+    status.set('Play')
 
     pygame.mixer.music.load(playlist.get(ACTIVE))
     pygame.mixer.music.play()
@@ -34,59 +34,71 @@ def stopsong():
     songtrack.delete('1.0',END)
     songtrack.config(state=DISABLED)
 
-    status.set('-Stopped')
+    status.set('Stop')
 
     pygame.mixer.music.stop()
     
 def pausesong():
-     status.set('-Paused')
+     status.set('Pause')
      pygame.mixer.music.pause()
 
 def unpausesong():
-     status.set('-Playing')
+     status.set('Play')
      pygame.mixer.music.unpause()
 
-trackframe = LabelFrame(root, text='Song Track', font=("Arial", 15, "bold"),
- bg='#FF8501', fg= '#383838', bd=5, relief=GROOVE)
-trackframe.place(x=0, y=200, width=600, height=120)
+trackframe = LabelFrame(root, text='Song Track', font=("Arial", 17, "bold"),
+ bg='#bb0000', fg= '#ffe6e6', bd=1, relief=GROOVE)
+trackframe.place(x=0, y=0, width=600, height=120)
 
 songtrack = Text(trackframe,width=40,height=2,font=("Arial",15),
-bg= 'white',fg='#383838', state=DISABLED)
+bg= '#ffe6e6',fg='#383838', state=DISABLED)
 
 songtrack.grid(row=0, column=0, padx=10, pady=5)
+#####
+trackstatus = Label(trackframe, textvariable= status,font=("sans-serif",15),
+bg='#ffe6e6', fg='#383838')
+trackstatus.grid(row=0, column=1, padx=40, pady=5)
 
-trackstatus = Label(trackframe, textvariable= status,font=("sans-serif",12),
-bg='white', fg='#383838')
-trackstatus.grid(row=0, column=1, padx=10, pady=5)
-
-buttonframe=LabelFrame(root,text='controlpanel', font=('Arial',15,'bold'),
-bg='#FF8501', fg='#383838', bd=5 , relief=GROOVE)
+buttonframe=LabelFrame(root,text='Buttons', font=('Arial',16,'bold'),
+bg='#bb0000', fg='#ffe6e6', bd=5 , relief=GROOVE)
 buttonframe.place(x=0,y=320, width=600, height=100)
 
 playbtn=Button(buttonframe,text='Play',width=8, height=1, font=('Arial',16),
-bg='white',fg='#383838', command=playsong)
-playbtn.grid (row=0, column=0, padx=10, pady=5)
+bg='#ffcccc',fg='#383838', command=playsong)
+playbtn.grid (row=0, column=0, padx=20, pady=5)
 
-pausebtn=Button(buttonframe,text='Pause',width=8, height=1, font=('Arial',16),
-bg='white',fg='#383838' , command=pausesong)
-pausebtn.grid (row=0, column=1, padx=10, pady=5)
+stopbtn=Button(buttonframe,text='stop',width=8, height=1, font=('Arial',16),
+bg='#ffcccc',fg='#383838' , command=stopsong)
+stopbtn.grid (row=0, column=1, padx=20, pady=5)
 
 unpausebtn=Button(buttonframe,text='Unpause',width=8, height=1, font=('Arial',16),
-bg='white',fg='#383838', command=unpausesong)
-unpausebtn.grid (row=0, column=2, padx=10, pady=5)
+bg='#ffcccc',fg='#383838', command=unpausesong)
+unpausebtn.grid (row=0, column=2, padx=20, pady=5)
 
-stopbtn=Button(buttonframe,text='Stop',width=8, height=1, font=('Arial',16),
-bg='white',fg='#383838', command=stopsong)
-stopbtn.grid (row=0, column=3, padx=10, pady=5)
+pausebtn=Button(buttonframe,text='pause',width=8, height=1, font=('Arial',16),
+bg='#ffcccc',fg='#383838', command=pausesong)
+pausebtn.grid (row=0, column=3, padx=20, pady=0)
 
-songsframe=LabelFrame(root,text='SongPlaylist',font=('Arial',15,"bold"),
-bg='#FF8501', fg='#383838')
-songsframe.place(x=0, y=0, width=600, height=200)
+songsframe=LabelFrame(root,text='Playlist',font=('Arial',16,"bold"),
+bg='#bb0000', fg='#ffe6e6',relief=GROOVE)
+songsframe.place(x=0, y=95, width=599, height=144)
+
+
+
+#ایجاد پنجره برای تکس
+trackframe = LabelFrame(root, text='                 Please select a Music                              ', font=("Arial", 21, "bold"),
+ bg='#bb0000', fg= 'silver', bd=10, relief= GROOVE)
+trackframe.place(x=0, y=240, width=599, height=80)
+
+
+
+
+
 
 scroll_y=Scrollbar(songsframe,orient=VERTICAL)
 
-playlist = Listbox (songsframe,selectbackground="navyblue",selectmode=SINGLE,font=('Arial',12),
-bg='white', fg='black', bd=5,relief=GROOVE,yscrollcommand=scroll_y.set)
+playlist = Listbox (songsframe,selectbackground="silver",selectmode=SINGLE,font=('Arial',12),
+bg='#ffe6e6', fg='#383838', bd=1,relief=GROOVE,yscrollcommand=scroll_y.set)
 
 scroll_y.config(command=playlist.yview)
 
@@ -103,3 +115,4 @@ for track in songtracks:
 
 
 mainloop()
+
